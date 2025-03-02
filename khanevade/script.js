@@ -1,14 +1,3 @@
-// تشخیص دستگاه (دسکتاپ یا موبایل)
-function isMobileDevice() {
-    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-}
-
-// نمایش پیغام خطا برای دسکتاپ
-if (!isMobileDevice()) {
-    document.getElementById('desktop-message').style.display = 'block';
-    document.getElementById('content').style.display = 'none';
-}
-
 // مسدود کردن کلیک راست
 document.addEventListener('contextmenu', function(event) {
     try {
@@ -79,6 +68,3 @@ document.querySelector('.contact-button').addEventListener('click', function() {
         console.error('خطا در اسکرول و نمایش شماره تماس:', error);
     }
 });
-
-// تعیین وقت اینترنتی
-document.getElementById('online-appointment-button').addEventListener('click',
