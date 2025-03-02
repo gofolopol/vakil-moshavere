@@ -1,0 +1,138 @@
+/* تنظیمات کلی */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    direction: rtl;
+    background-color: #f5f5f5;
+    margin: 0;
+    padding: 0;
+    position: relative;
+    min-height: 100vh;
+    user-select: none; /* غیرفعال کردن انتخاب متن */
+    -webkit-user-select: none; /* برای مرورگرهای مبتنی بر WebKit */
+    -moz-user-select: none; /* برای فایرفاکس */
+    -ms-user-select: none; /* برای اینترنت اکسپلورر */
+}
+
+/* جلوگیری از کشیدن تصاویر */
+img {
+    pointer-events: none; /* غیرفعال کردن تعامل با تصاویر */
+}
+
+main {
+    padding: 20px;
+    max-width: 800px;
+    margin: 0 auto;
+    padding-bottom: 20px;
+}
+
+/* بخش تصاویر */
+.ad-images {
+    margin-bottom: 20px;
+}
+
+.main-image {
+    width: 100%;
+    height: 250px;
+    border-radius: 8px;
+    object-fit: cover;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* بخش اطلاعات آگهی */
+.ad-info h2 {
+    color: #333;
+    margin-bottom: 10px;
+    font-size: 1.3em;
+}
+
+.title-line {
+    border: 1px solid #ddd;
+    margin-bottom: 10px;
+}
+
+.ad-info .location {
+    color: #666;
+    margin-bottom: 10px;
+    font-size: 1.1em;
+}
+
+.location-line {
+    border: 1px solid #ddd;
+    margin-bottom: 10px;
+}
+
+.ad-info .description {
+    color: #444;
+    line-height: 1.8;
+    font-size: 0.95em;
+}
+
+/* علامت ✅ و ❌ */
+.checkmark {
+    color: green;
+    font-size: 1.2em;
+}
+
+.crossmark {
+    color: red;
+    font-size: 1.2em;
+}
+
+/* خط جدید بالای فوتر */
+.footer-line {
+    border: 1px solid #ddd;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+/* بخش تماس با فروشنده */
+.contact-seller {
+    position: sticky;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: transparent;
+    padding: 10px;
+    text-align: center;
+    z-index: 1000;
+}
+
+.contact-button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1.2em;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    display: block;
+}
+
+.contact-button:hover {
+    background-color: #45a049;
+}
+
+.contact-button:active {
+    transform: scale(0.98);
+}
+
+.contact-info {
+    color: #666;
+    margin-top: 5px;
+    font-size: 1.5em; /* بزرگ‌تر کردن فونت شماره تماس */
+    display: none;
+}
+
+/* پاورقی */
+footer {
+    text-align: center;
+    padding: 10px;
+    background-color: #333;
+    color: white;
+    position: static;
+    margin-top: 10px;
+}
