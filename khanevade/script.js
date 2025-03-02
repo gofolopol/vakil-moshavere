@@ -1,3 +1,14 @@
+// تشخیص دستگاه (دسکتاپ یا موبایل)
+function isMobileDevice() {
+    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+}
+
+// نمایش پیغام خطا برای دسکتاپ
+if (!isMobileDevice()) {
+    document.getElementById('desktop-message').style.display = 'block';
+    document.getElementById('content').style.display = 'none';
+}
+
 // مسدود کردن کلیک راست
 document.addEventListener('contextmenu', function(event) {
     try {
