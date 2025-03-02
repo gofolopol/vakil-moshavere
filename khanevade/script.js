@@ -79,3 +79,6 @@ document.querySelector('.contact-button').addEventListener('click', function() {
         console.error('خطا در اسکرول و نمایش شماره تماس:', error);
     }
 });
+
+// تعیین وقت اینترنتی
+document.getElementById('online-appointment-button').addEventListener('click',
