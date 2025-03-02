@@ -1,56 +1,70 @@
 // مسدود کردن کلیک راست
 document.addEventListener('contextmenu', function(event) {
-    event.preventDefault(); // جلوگیری از باز شدن منوی راست کلیک
-    alert('کلیک راست در این صفحه غیرفعال است.'); // نمایش پیام به کاربر
-});
-
-// مسدود کردن ذخیره صفحه (Ctrl + S یا راست کلیک + ذخیره)
-document.addEventListener('keydown', function(event) {
-    // اگر کلید Ctrl + S فشار داده شد
-    if (event.ctrlKey && event.key === 's') {
-        event.preventDefault(); // جلوگیری از ذخیره صفحه
-        alert('ذخیره صفحه در این سایت غیرفعال است.'); // نمایش پیام به کاربر
+    try {
+        event.preventDefault();
+        alert('کلیک راست در این صفحه غیرفعال است.');
+    } catch (error) {
+        console.error('خطا در مسدود کردن کلیک راست:', error);
     }
 });
 
-// مسدود کردن کشیدن و رها کردن تصاویر
+// مسدود کردن ذخیره صفحه (Ctrl + S)
+document.addEventListener('keydown', function(event) {
+    try {
+        if (event.ctrlKey && event.key === 's') {
+            event.preventDefault();
+            alert('ذخیره صفحه در این سایت غیرفعال است.');
+        }
+    } catch (error) {
+        console.error('خطا در مسدود کردن ذخیره صفحه:', error);
+    }
+});
+
+// مسدود کردن کشیدن تصاویر
 document.addEventListener('dragstart', function(event) {
-    if (event.target.tagName === 'IMG') { // اگر کاربر سعی کند تصویری را بکشد
-        event.preventDefault(); // جلوگیری از کشیدن تصویر
+    try {
+        if (event.target.tagName === 'IMG') {
+            event.preventDefault();
+        }
+    } catch (error) {
+        console.error('خطا در مسدود کردن کشیدن تصاویر:', error);
     }
 });
 
 // نمایش شماره تماس
 function showPhoneNumber() {
-    const phoneNumber = document.getElementById('phone-number');
-    phoneNumber.style.display = 'block'; // نمایش شماره تماس
+    try {
+        const phoneNumber = document.getElementById('phone-number');
+        phoneNumber.style.display = 'block';
+    } catch (error) {
+        console.error('خطا در نمایش شماره تماس:', error);
+    }
 }
 
-// تابع برای هدایت به صفحه تماس با استفاده از لینک واقعی
+// هدایت به صفحه تماس
 function redirectToCall() {
-    // ایجاد یک لینک موقت
-    const link = document.createElement('a');
-    link.href = 'tel:09055094214'; // تنظیم لینک تماس
-    link.style.display = 'none'; // مخفی کردن لینک
-    document.body.appendChild(link); // اضافه کردن لینک به صفحه
-
-    // کلیک خودکار روی لینک
-    link.click();
-
-    // حذف لینک پس از ۱ ثانیه
-    setTimeout(() => {
-        document.body.removeChild(link);
-    }, 1000);
+    try {
+        const link = document.createElement('a');
+        link.href = 'tel:09055094214';
+        link.style.display = 'none';
+        document.body.appendChild(link);
+        link.click();
+        setTimeout(() => {
+            document.body.removeChild(link);
+        }, 1000);
+    } catch (error) {
+        console.error('خطا در هدایت به صفحه تماس:', error);
+    }
 }
 
-// اسکرول نرم برای بخش تماس و نمایش شماره
+// اسکرول نرم و نمایش شماره تماس
 document.querySelector('.contact-button').addEventListener('click', function() {
-    const contactSection = document.querySelector('.contact-seller');
-    contactSection.scrollIntoView({ behavior: 'smooth' }); // اسکرول نرم به بخش تماس
-
-    // نمایش شماره تماس
-    showPhoneNumber();
-
-    // هدایت به صفحه تماس
-    redirectToCall();
+    try {
+        const contactSection = document.querySelector('.contact-seller');
+        contactSection.scrollIntoView({ behavior: 'smooth' });
+        showPhoneNumber();
+        redirectToCall();
+    } catch (error) {
+        console.error('خطا در اسکرول و نمایش شماره تماس:', error);
+    }
 });
