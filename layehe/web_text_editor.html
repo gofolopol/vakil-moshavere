@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="pageTitle">ویرایشگر متن HTML</title>
+    <style>
+        body { font-family: Arial, sans-serif; direction: rtl; text-align: center; }
+        .container { max-width: 800px; margin: auto; padding: 20px; }
+        .editable { width: 100%; min-height: 300px; border: 1px solid #ccc; padding: 10px; text-align: right; background: #f9f9f9; }
+        button { margin-top: 10px; padding: 10px; cursor: pointer; }
+        input { margin-bottom: 10px; }
+        .preview { border: 1px solid #ccc; padding: 10px; margin-top: 20px; text-align: right; background: white; display: none; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>ویرایشگر متن HTML</h2>
+        <input type="file" id="fileInput" accept=".html">
+        <br>
+        <input type="text" id="titleInput" placeholder="عنوان صفحه جدید">
+        <button onclick="changeTitle()">تغییر عنوان صفحه</button>
+        <br>
+        <input type="text" id="imageURL" placeholder="آدرس تصویر جدید">
+        <button onclick="changeImage()">تغییر تصویر</button>
+        <br>
+        <button onclick="formatText('bold')">بولد کردن</button>
+        <button onclick="formatText('underline')">زیرخط دار</button>
+        <div id="editor" class="editable"></div>
+        <br>
+        <button onclick="saveFile()">ذخیره تغییرات</button>
+        <button onclick="previewChanges()">پیش‌نمایش تغییرات</button>
+        <div id="preview" class="preview"></div>
+    </div>
+
+    <script>
+        let originalHTML = '';
+        
+        document.getElementById('fileInput').addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    originalHTML = e.target.result;
+                    loadEditableContent(originalHTML);
+                };
+                reader.readAsText(file);
+            }
+        });
+
+        function loadEditableContent(html) {
+            let parser = new DOMParser();
+            let doc = parser.parseFromString(html, 'text/html');
+            document.getElementById('titleInput').value = doc.title;
+            doc.body.querySelectorAll('p, h1, h2, h3, li, span, img').forEach(el => {
+                if (el.tagName === 'IMG') {
+                    el.setAttribute('data-editable', 'true');
+                } else {
+                    el.setAttribute('contenteditable', 'true');
+                    el.style.border = '1px dashed #aaa';
+                    el.style.padding = '2px';
+                }
+            });
+            document.getElementById('editor').innerHTML = doc.body.innerHTML;
+        }
+
+        function changeImage() {
+            let newURL = document.getElementById('imageURL').value;
+            let imgElements = document.querySelectorAll('img[data-editable]');
+            imgElements.forEach(img => img.src = newURL);
+        }
+
+        function formatText(command) {
+            document.execCommand(command, false, null);
+        }
+        
+        function changeTitle() {
+            document.title = document.getElementById('titleInput').value;
+        }
+
+        function saveFile() {
+            let parser = new DOMParser();
+            let doc = parser.parseFromString(originalHTML, 'text/html');
+            let updatedDoc = new DOMParser().parseFromString(document.getElementById('editor').innerHTML, 'text/html');
+            
+            // به‌روز‌رسانی عنوان
+            doc.title = document.getElementById('titleInput').value;
+            
+            doc.body.querySelectorAll('p, h1, h2, h3, li, span, img').forEach((el, index) => {
+                let updatedElements = updatedDoc.body.querySelectorAll('p, h1, h2, h3, li, span, img');
+                if (updatedElements[index]) {
+                    el.innerHTML = updatedElements[index].innerHTML;
+                    if (el.tagName === 'IMG') {
+                        el.src = updatedElements[index].src;
+                    }
+                    el.removeAttribute('contenteditable');
+                    el.style.border = '';
+                    el.style.padding = '';
+                }
+            });
+            
+            // دور نهایی: حذف هرگونه contenteditable و استایل‌های ویرایش (مثلاً dashed border)
+            doc.documentElement.querySelectorAll('*').forEach(el => {
+                if (el.hasAttribute('contenteditable')) {
+                    el.removeAttribute('contenteditable');
+                }
+                if (el.style.border && el.style.border.includes("dashed")) {
+                    el.style.border = "";
+                }
+                if (el.style.padding && el.style.padding === "2px") {
+                    el.style.padding = "";
+                }
+            });
+            
+            let blob = new Blob([doc.documentElement.outerHTML], { type: 'text/html' });
+            let a = document.createElement('a');
+            let fileName = prompt("نام فایل را وارد کنید:", "edited_file.html");
+            if (fileName) {
+                a.href = URL.createObjectURL(blob);
+                a.download = fileName;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+            }
+        }
+        
+        function previewChanges() {
+            document.getElementById('preview').innerHTML = document.getElementById('editor').innerHTML;
+            document.getElementById('preview').style.display = 'block';
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,10 @@
+# Default .htaccess for HTML
+Options -Indexes
+ErrorDocument 404 /404.html
+
+# Redirect to HTTPS if you have SSL
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteCond %{HTTPS} off
+RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+</IfModule>
